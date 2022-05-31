@@ -36,11 +36,21 @@ public class ProductServlet extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 break;
-
-
+            case"edit":
+                showEdit(request,response);
+                break;
             default:
                 showList(request,response);
         }
+    }
+
+    private void showEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Category> categoryList = cate.selectAll();
+        request.setAttribute("category",categoryList);
+        int id = Integer.parseInt(request.getParameter("id"));
+        Product product = productServlet.findById(id);
+        request.setAttribute("product",product);
+        request.getRequestDispatcher("product/edit.jsp").forward(request,response);
     }
 
 
@@ -90,10 +100,29 @@ public class ProductServlet extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 break;
+            case"edit":
+                try {
+                    showEditForm(request,response);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
 
             default:
                 showList(request,response);
         }
+
+    }
+
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        String name = request.getParameter("name");
+        int price = Integer.parseInt(request.getParameter("price"));
+        int id = Integer.parseInt(request.getParameter("id"));
+        int cId = Integer.parseInt(request.getParameter("cId"));
+        Category category = cate.findById(cId);
+       productServlet.update(new Product(id,name,price,category));
+       response.sendRedirect("/homeServlet");
+
 
     }
 

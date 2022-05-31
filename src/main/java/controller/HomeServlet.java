@@ -20,11 +20,11 @@ public class HomeServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String cId = request.getParameter("cId");
         String key = request.getParameter("key");
-        request.getRequestDispatcher("index.jsp");
+       RequestDispatcher requestDispatcher=  request.getRequestDispatcher("index.jsp");
         List<Category> categoryList = categoryIpl.selectAll();
         request.setAttribute("category",categoryList);
         List<Product> productList = productIpl.selectAll();
-        if(key !=null){
+        if(cId !=null){
             productList=productIpl.findByCategory(Integer.parseInt(cId));
         }
         if(key !=null){
@@ -32,7 +32,7 @@ public class HomeServlet extends HttpServlet {
 
         }
         request.setAttribute("product",productList);
-        request.getRequestDispatcher("index.jsp").forward(request,response);
+        requestDispatcher.forward(request,response);
     }
     public void destroy() {
     }

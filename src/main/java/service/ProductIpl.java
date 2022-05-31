@@ -50,7 +50,7 @@ public class ProductIpl implements ProductI{
 
                 String name = rs.getString("name");
                 int price= rs.getInt("price");
-                int categoryId = rs.getInt("categoryId");
+                int categoryId = rs.getInt("cId");
                 Category cate = categoryIpl.findById(categoryId);
                 product =new Product(id,name,price,cate);
             }
@@ -58,7 +58,6 @@ public class ProductIpl implements ProductI{
 
         }
         return product;
-
     }
 
     @Override
@@ -100,6 +99,15 @@ public class ProductIpl implements ProductI{
 
     @Override
     public void update(Product product) throws SQLException {
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement("update product set name= ?,price=? where id = ?;");) {
+            statement.setString(1, product.getName());
+            statement.setInt(2,product.getPrice());
+            statement.setInt(3, product.getId());
+            statement.executeUpdate();
+        }
+
+
 
     }
 

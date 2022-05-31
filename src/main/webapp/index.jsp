@@ -139,7 +139,7 @@
                            <p class="card-text">${pr.price}</p>
                         <div class="btn-group" role="group" aria-label="Basic example">
                                 <a class="btn btn-secondary" href="/ProductServlet?action=view&id=${pr.id}">View</a>
-                                <a  class="btn btn-secondary">Edit</a>
+                                <a  class="btn btn-secondary"href="/ProductServlet?action=edit&id=${pr.id}">Edit</a>
                                 <a class="btn btn-danger" href="/ProductServlet?action=delete&id=${pr.id}">Delete</a>
                   </div>
               </div>
